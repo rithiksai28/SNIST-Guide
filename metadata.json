@@ -1,0 +1,7 @@
+{
+  "name": "SNIST GUIDE",
+  "description": "An independent student-built academic resource navigation platform for SNIST students. Study smart. Score better.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
