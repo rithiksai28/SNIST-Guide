@@ -171,6 +171,67 @@ export function resetSubjectsToMasterData(): Subject[] {
   saveLocalStoredSubjects(master);
   return master;
 }
+// ----------------------------------------------------------------------------
+// Cloud-aware catalog reset (Supabase): wipes table, restores master catalog
+// ----------------------------------------------------------------------------
+function buildMasterRows(): Record<string, unknown>[] {
+  const baseTime = Date.now();
+  return getAllSubjects().map((s: any, i: number) => {
+    const ts = new Date(baseTime - i * 1000).toISOString(); // stagger = preserves original order
+    return {
+      id: String(s.id),
+      name: String(s.name),
+      code: s.code ?? null,
+      departments: Array.isArray(s.departments) ? s.departments : ['COMMON'],
+      status: s.status === 'COMING SOON' ? 'COMING SOON' : 'RESOURCES AVAILABLE',
+      drive_url: s.driveUrl ?? '',
+      category_tags: Array.isArray(s.categoryTags) ? s.categoryTags : [],
+      description: s.description ?? null,
+      semester_id: String(s.semesterId ?? ''),
+      semester_title: String(s.semesterTitle ?? ''),
+      year_id: String(s.yearId ?? ''),
+      year_title: String(s.yearTitle ?? ''),
+      created_at: s.createdAt ?? ts,
+      updated_at: s.updatedAt ?? ts,
+    };
+  });
+}
+
+export async function adminResetToMasterData(): Promise<{ success: boolean; count?: number; error?: string }> {
+  const session = await adminVerifySession();
+  if (!session.success) {
+    return { success: false, error: 'Unauthorized: Admin session expired or invalid.' };
+  }
+
+  const master = getAllSubjects();
+
+  if (!isSupabaseConfigured) {
+    saveLocalStoredSubjects(master);
+    return { success: true, count: master.length };
+  }
+
+  try {
+    // 1) Remove all current rows (RLS permits this for the authenticated admin)
+    const { error: delError } = await supabase
+      .from('subjects')
+      .delete()
+      .neq('id', '__none__'); // filter matches every row
+
+    if (delError) return { success: false, error: friendlyDbError(delError, 'reset catalog') };
+
+    // 2) Re-insert the official master catalog in chunks
+    const rows = buildMasterRows();
+    for (let i = 0; i < rows.length; i += 100) {
+      const chunk = rows.slice(i, i + 100);
+      const { error } = await supabase.from('subjects').insert(chunk);
+      if (error) return { success: false, error: friendlyDbError(error, 'reset catalog') };
+    }
+
+    return { success: true, count: rows.length };
+  } catch (err: any) {
+    return { success: false, error: friendlyDbError(err, 'reset catalog') };
+  }
+}
 
 // ----------------------------------------------------------------------------
 // Public Subject Fetching (Supabase, with graceful fallback)
