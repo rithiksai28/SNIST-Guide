@@ -9,7 +9,7 @@ import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
 import { AcademicYear, Semester, Subject, AdminUser } from './types';
 import { getAllSubjects, buildAcademicYearsFromSubjects } from './data/academicData';
-import { api, getLocalStoredSubjects } from './lib/api';
+import { api, getLocalStoredSubjects, subscribeToSubjects } from './lib/api';
 
 export default function App() {
   // Current view/route: '/' or '/admin'
@@ -95,6 +95,12 @@ export default function App() {
     };
 
     verifySession();
+  }, [refreshSubjects]);
+    // Realtime: auto-refresh when the admin changes data from any device
+  useEffect(() => {
+    return subscribeToSubjects(() => {
+      refreshSubjects();
+    });
   }, [refreshSubjects]);
 
   // Dynamically constructed academic years reflecting latest subjects

@@ -97,28 +97,15 @@ export default function AdminLogin({ onLoginSuccess, onBackToPublic }: AdminLogi
           )}
 
           {/* Demo / Admin Credentials Helper Card */}
+          {/* Administrator Access Notice */}
           <div className="mt-5 rounded-lg border border-blue-100 bg-blue-50/70 p-3.5 text-xs text-blue-900">
-            <div className="flex items-center justify-between">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-blue-700">
-                Default Admin Credentials
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  setEmail('admin@snistguide.edu');
-                  setPassword('admin123');
-                }}
-                className="rounded bg-blue-600 px-2 py-0.5 font-mono text-[10px] font-bold text-white transition hover:bg-blue-700"
-              >
-                Auto-fill
-              </button>
-            </div>
-            <div className="mt-2 font-mono text-[11px] text-slate-700 space-y-0.5">
-              <p><span className="text-slate-400">Email:</span> admin@snistguide.edu</p>
-              <p><span className="text-slate-400">Password:</span> admin123</p>
-            </div>
+            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-blue-700">
+              Administrator Access
+            </span>
+            <p className="mt-2 text-[11px] leading-relaxed text-slate-600">
+              Sign in with the administrator account. Credentials are verified securely via Supabase Auth.
+            </p>
           </div>
-
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="mt-5 space-y-4">
             <div>
@@ -138,7 +125,7 @@ export default function AdminLogin({ onLoginSuccess, onBackToPublic }: AdminLogi
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@snistguide.edu"
+                  placeholder="Enter administrator email"
                   className="w-full rounded border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-3 text-xs font-medium text-slate-900 placeholder-slate-400 focus:border-blue-600 focus:bg-white focus:outline-none focus:ring-1 focus:ring-blue-600 transition"
                   autoComplete="email"
                 />

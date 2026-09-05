@@ -32,7 +32,7 @@ import {
   adminDeleteSubject,
   adminLogout,
   adminUpdateSubject,
-  resetSubjectsToMasterData,
+  adminResetToMasterData,
 } from '../../lib/api';
 
 interface AdminDashboardProps {
@@ -310,9 +310,13 @@ export default function AdminDashboard({
     );
     if (!ok) return;
 
-    resetSubjectsToMasterData();
+        const result = await adminResetToMasterData();
+    if (!result.success) {
+      alert(`Reset failed: ${result.error}`);
+      return;
+    }
     await onRefreshSubjects();
-    alert('Catalog restored to official SNIST master dataset!');
+    alert(`Catalog restored to the official SNIST master dataset (${result.count} subjects).`);
   };
 
   return (
