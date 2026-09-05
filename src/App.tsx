@@ -9,7 +9,7 @@ import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './components/admin/AdminDashboard';
 import { AcademicYear, Semester, Subject, AdminUser } from './types';
 import { getAllSubjects, buildAcademicYearsFromSubjects } from './data/academicData';
-import { api } from './lib/api';
+import { api, getLocalStoredSubjects } from './lib/api';
 
 export default function App() {
   // Current view/route: '/' or '/admin'
@@ -20,9 +20,9 @@ export default function App() {
     return '/';
   });
 
-  // Dynamic subjects list from database / fallback seed data
-  const [subjects, setSubjects] = useState<Subject[]>(() => getAllSubjects());
-  const [loadingSubjects, setLoadingSubjects] = useState<boolean>(true);
+  // Dynamic subjects list from browser-native localStorage (seeded with master data)
+  const [subjects, setSubjects] = useState<Subject[]>(() => getLocalStoredSubjects());
+  const [loadingSubjects, setLoadingSubjects] = useState<boolean>(false);
 
   // Admin authentication state
   const [adminToken, setAdminToken] = useState<string>(() => api.getStoredToken() || '');

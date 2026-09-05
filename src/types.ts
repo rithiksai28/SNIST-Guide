@@ -48,6 +48,7 @@ export interface SubjectInput {
 export interface AdminUser {
   email: string;
   role: string;
+  name?: string;
 }
 
 export interface AdminAuthResponse {

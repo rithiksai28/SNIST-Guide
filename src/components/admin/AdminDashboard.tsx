@@ -22,6 +22,8 @@ import {
   X,
   AlertTriangle,
   FolderSync,
+  Download,
+  RotateCcw,
 } from 'lucide-react';
 import { Subject, SubjectInput, AdminUser, ResourceStatus } from '../../types';
 import { DEPARTMENTS_LIST } from '../../data/academicData';
@@ -30,6 +32,7 @@ import {
   adminDeleteSubject,
   adminLogout,
   adminUpdateSubject,
+  resetSubjectsToMasterData,
 } from '../../lib/api';
 
 interface AdminDashboardProps {
@@ -280,6 +283,36 @@ export default function AdminDashboard({
   const handleLogoutClick = async () => {
     await adminLogout(token);
     onLogout();
+  };
+
+  // Export Subjects as JSON backup file
+  const handleExportBackup = () => {
+    try {
+      const dataStr = JSON.stringify(subjects, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `snist_subjects_backup_${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch {
+      alert('Failed to generate export file.');
+    }
+  };
+
+  // Reset to default SNIST catalog
+  const handleResetCatalog = async () => {
+    const ok = window.confirm(
+      'Are you sure you want to restore the official SNIST subjects catalog? Any custom subjects you created will be reset to default.'
+    );
+    if (!ok) return;
+
+    resetSubjectsToMasterData();
+    await onRefreshSubjects();
+    alert('Catalog restored to official SNIST master dataset!');
   };
 
   return (
@@ -687,19 +720,37 @@ export default function AdminDashboard({
               </div>
             </div>
 
-            {/* Results Count */}
-            <div className="py-3 flex items-center justify-between text-xs text-slate-500">
+            {/* Results Count & Data Tools */}
+            <div className="py-3 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
               <span>
                 Showing <strong className="text-slate-800">{filteredSubjects.length}</strong> of{' '}
                 <strong className="text-slate-800">{subjects.length}</strong> subjects
               </span>
-              <button
-                onClick={onRefreshSubjects}
-                className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 hover:text-blue-700"
-              >
-                <FolderSync className="h-3 w-3" />
-                Refresh Data
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleExportBackup}
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 hover:text-slate-900 border border-slate-200 rounded px-2.5 py-1 bg-white shadow-xs transition"
+                  title="Download all subjects as JSON backup"
+                >
+                  <Download className="h-3 w-3 text-slate-500" />
+                  Export JSON
+                </button>
+                <button
+                  onClick={handleResetCatalog}
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-700 hover:text-amber-800 border border-amber-200 rounded px-2.5 py-1 bg-amber-50/60 shadow-xs transition"
+                  title="Restore original official SNIST catalog"
+                >
+                  <RotateCcw className="h-3 w-3 text-amber-600" />
+                  Reset Catalog
+                </button>
+                <button
+                  onClick={onRefreshSubjects}
+                  className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 hover:text-blue-700 border border-blue-200 rounded px-2.5 py-1 bg-blue-50/60 shadow-xs transition"
+                >
+                  <FolderSync className="h-3 w-3" />
+                  Refresh
+                </button>
+              </div>
             </div>
 
             {/* Responsive Table of Subjects */}

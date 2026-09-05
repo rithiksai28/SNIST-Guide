@@ -96,8 +96,31 @@ export default function AdminLogin({ onLoginSuccess, onBackToPublic }: AdminLogi
             </div>
           )}
 
+          {/* Demo / Admin Credentials Helper Card */}
+          <div className="mt-5 rounded-lg border border-blue-100 bg-blue-50/70 p-3.5 text-xs text-blue-900">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-blue-700">
+                Default Admin Credentials
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail('admin@snistguide.edu');
+                  setPassword('admin123');
+                }}
+                className="rounded bg-blue-600 px-2 py-0.5 font-mono text-[10px] font-bold text-white transition hover:bg-blue-700"
+              >
+                Auto-fill
+              </button>
+            </div>
+            <div className="mt-2 font-mono text-[11px] text-slate-700 space-y-0.5">
+              <p><span className="text-slate-400">Email:</span> admin@snistguide.edu</p>
+              <p><span className="text-slate-400">Password:</span> admin123</p>
+            </div>
+          </div>
+
           {/* Login Form */}
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <form onSubmit={handleSubmit} className="mt-5 space-y-4">
             <div>
               <label
                 htmlFor="admin-email"
