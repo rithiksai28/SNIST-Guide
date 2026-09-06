@@ -43,8 +43,10 @@ import { AcademicYear, DepartmentConfig, Subject } from '../types';
 export const DEPARTMENTS_LIST: DepartmentConfig[] = [
   { id: 'COMMON', label: 'COMMON', fullName: 'Common to all branches' },
   { id: 'DS', label: 'DS', fullName: 'Data Science' },
-  { id: 'CSE', label: 'CSE', fullName: 'Computer Science (CSE)' },
   { id: 'AIML', label: 'AIML', fullName: 'Artificial Intelligence & Machine Learning' },
+  { id: 'CSE', label: 'CSE', fullName: 'Computer Science (CSE)' },
+  { id: 'CS', label: 'CS', fullName: 'Computer Science' },
+  { id: 'IT', label: 'IT', fullName: 'Information Technology' },
   { id: 'ECE', label: 'ECE', fullName: 'Electronics & Communication Engineering' },
   { id: 'EEE', label: 'EEE', fullName: 'Electrical & Electronics Engineering' },
   { id: 'MECHANICAL', label: 'MECHANICAL', fullName: 'Mechanical Engineering' },

@@ -119,11 +119,7 @@ export default function Footer({
                     id={`footer-link-${year.id}`}
                   >
                     <span>{year.title}</span>
-                    {year.status === 'RESOURCES AVAILABLE' && (
-                      <span className="rounded border border-emerald-500/20 bg-emerald-950/60 px-1.5 py-0.2 text-[9px] font-bold text-emerald-400 uppercase">
-                        Available
-                      </span>
-                    )}
+
                   </button>
                 </li>
               ))}
