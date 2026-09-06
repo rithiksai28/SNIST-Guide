@@ -19,7 +19,7 @@ const CREATOR_CONFIG = {
   name: 'Rithik Sai',
   role: 'Designed & Developed by',
   department: 'Data Science Department, SNIST',
-  linkedInUrl: 'www.linkedin.com/in/rithik-sai', // Add LinkedIn profile URL here (e.g., 'https://www.linkedin.com/in/...')
+    linkedInUrl: 'https://www.linkedin.com/in/rithik-sai',
 };
 
 export default function Footer({
