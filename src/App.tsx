@@ -15,7 +15,7 @@ export default function App() {
   // Current view/route: '/' or '/admin'
   const [currentPath, setCurrentPath] = useState<string>(() => {
     if (typeof window !== 'undefined') {
-      return window.location.pathname.startsWith('/admin') ? '/admin' : '/';
+      return window.location.pathname.startsWith('/edith') ? '/edith' : '/';
     }
     return '/';
   });
@@ -38,7 +38,7 @@ export default function App() {
   // Synchronize route with browser history
   useEffect(() => {
     const handlePopState = () => {
-      const path = window.location.pathname.startsWith('/admin') ? '/admin' : '/';
+      const path = window.location.pathname.startsWith('/edith') ? '/edith' : '/';
       setCurrentPath(path);
     };
     window.addEventListener('popstate', handlePopState);
@@ -136,7 +136,7 @@ export default function App() {
 
   // Navigation handlers
   const handleScrollToGuide = () => {
-    if (currentPath !== '/') {
+    if (currentPath === '/edith') {
       navigateTo('/');
       setTimeout(() => {
         const el = document.getElementById('guide');
@@ -165,7 +165,7 @@ export default function App() {
   };
 
   const handleNavigateAbout = () => {
-    if (currentPath !== '/') {
+    if (currentPath === '/edith') {
       navigateTo('/');
       setTimeout(() => {
         const el = document.getElementById('about');
@@ -197,9 +197,9 @@ export default function App() {
   };
 
   // ==========================================================================
-  // VIEW ROUTING: ADMIN ROUTE (/admin)
+  // VIEW ROUTING: ADMIN ROUTE (/edith)
   // ==========================================================================
-  if (currentPath === '/admin') {
+  if (currentPath === '/edith') {
     if (authChecking) {
       return (
         <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
@@ -275,7 +275,7 @@ export default function App() {
           setSelectedYearId(year.id);
           setSelectedSemesterId(null);
         }}
-        onNavigateAdmin={() => navigateTo('/admin')}
+        onNavigateAdmin={() => navigateTo('/edith')}
       />
 
       {/* Resource Coming Soon Dialog / Modal */}
