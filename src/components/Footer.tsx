@@ -166,9 +166,13 @@ export default function Footer({
                 href={CREATOR_CONFIG.departmentUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[11px] text-slate-400 font-medium tracking-wide hover:text-blue-400 transition-colors duration-200"
+                className="group inline-flex items-center gap-1 text-[11px] text-slate-400 font-medium tracking-wide hover:text-blue-400 transition-colors duration-200"
+                title="Visit The Infinitix"
               >
-                {CREATOR_CONFIG.department}
+                <span className="underline decoration-slate-600 underline-offset-4 group-hover:decoration-blue-400 transition-colors">
+                  {CREATOR_CONFIG.department}
+                </span>
+                <ArrowUpRight className="h-3 w-3 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </a>
             ) : (
               <span className="text-[11px] text-slate-400 font-medium tracking-wide">
