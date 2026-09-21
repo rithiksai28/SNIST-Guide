@@ -19,7 +19,8 @@ const CREATOR_CONFIG = {
   name: 'Rithik Sai',
   role: 'Designed & Developed by',
   department: 'Data Science Department, SNIST',
-    linkedInUrl: 'https://www.linkedin.com/in/rithik-sai',
+  departmentUrl: 'https://theinfinitixclub.netlify.app/', // ← add this
+  linkedInUrl: 'https://www.linkedin.com/in/rithik-sai',
 };
 
 export default function Footer({
@@ -160,7 +161,20 @@ export default function Footer({
             )}
             <span className="hidden sm:inline text-slate-600 text-xs">•</span>
             <span className="text-[11px] text-slate-400 font-medium tracking-wide">
-              {CREATOR_CONFIG.department}
+            {CREATOR_CONFIG.departmentUrl ? (
+              <a
+                href={CREATOR_CONFIG.departmentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[11px] text-slate-400 font-medium tracking-wide hover:text-blue-400 transition-colors duration-200"
+              >
+                {CREATOR_CONFIG.department}
+              </a>
+            ) : (
+              <span className="text-[11px] text-slate-400 font-medium tracking-wide">
+                {CREATOR_CONFIG.department}
+              </span>
+            )}
             </span>
           </div>
 
@@ -174,6 +188,7 @@ export default function Footer({
           <p>© 2026 SNIST GUIDE. An independent student-built academic resource platform.</p>
           
           <div className="flex items-center gap-4">
+            {/* Admin access hidden — direct URL only: /edith
             <button
               onClick={onNavigateAdmin}
               className="text-[11px] text-slate-400/80 hover:text-slate-300 transition-colors underline-offset-4 hover:underline"
@@ -183,6 +198,7 @@ export default function Footer({
               Admin Access
             </button>
             <span className="text-slate-700">•</span>
+            */}
             <p className="font-mono text-[10px] tracking-widest text-slate-400 uppercase">
               STUDY SMART. SCORE BETTER.
             </p>
